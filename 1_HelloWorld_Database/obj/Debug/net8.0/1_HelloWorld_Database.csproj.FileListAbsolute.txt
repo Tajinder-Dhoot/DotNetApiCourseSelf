@@ -1,0 +1,14 @@
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/1_HelloWorld_Database
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/1_HelloWorld_Database.deps.json
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/1_HelloWorld_Database.runtimeconfig.json
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/1_HelloWorld_Database.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/1_HelloWorld_Database.pdb
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.GeneratedMSBuildEditorConfig.editorconfig
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.AssemblyInfoInputs.cache
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.AssemblyInfo.cs
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.csproj.CoreCompileInputs.cache
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/refint/1_HelloWorld_Database.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.pdb
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.genruntimeconfig.cache
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/ref/1_HelloWorld_Database.dll
