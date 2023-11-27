@@ -63,3 +63,10 @@
 /Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.csproj.AssemblyReference.cache
 /Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.sourcelink.json
 /Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/obj/Debug/net8.0/1_HelloWorld_Database.csproj.CopyComplete
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/Microsoft.Extensions.Configuration.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/Microsoft.Extensions.Configuration.FileExtensions.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Json.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/Microsoft.Extensions.FileProviders.Abstractions.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/Microsoft.Extensions.FileProviders.Physical.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/Microsoft.Extensions.FileSystemGlobbing.dll
+/Volumes/Cipher/git/CourseForks/DotNetAPICourseSelf/1_HelloWorld_Database/bin/Debug/net8.0/appsettings.json

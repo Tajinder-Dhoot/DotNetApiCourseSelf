@@ -4,6 +4,7 @@ using _1_HelloWorld_Database.Data;
 using _1_HelloWorld_Database.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace _1_HelloWorld_Database;
 
@@ -11,8 +12,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        DataContextDapper dapper = new();
-        DataContextEF entityFramework = new();
+
+        IConfiguration config = new ConfigurationBuilder()
+            .AddJsonFile("appSettings.json")
+            .Build();
+
+        DataContextDapper dapper = new(config);
+        DataContextEF entityFramework = new(config);
 
         DateTime rightNow = dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
 
