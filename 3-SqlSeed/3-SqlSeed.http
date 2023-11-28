@@ -1,0 +1,6 @@
+@_3_SqlSeed_HostAddress = http://localhost:5062
+
+GET {{_3_SqlSeed_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
