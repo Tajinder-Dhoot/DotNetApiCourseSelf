@@ -6,9 +6,17 @@ namespace DotnetAPI.Controllers;
 public class UsersController : ControllerBase
 {
 
-    public UsersController()
-    {
+    DataContextDapper _dapper;
 
+    public UsersController(IConfiguration config)
+    {
+        _dapper = new DataContextDapper(config);
+    }
+
+    [HttpGet("TestConnection")]
+    public string TestConnection()
+    {
+        return _dapper.LoadDataSingle<DateTime>("SELECT GETDATE()").ToString("yyyy-MM-dd");
     }
 
     [HttpGet("GetUsers/{testValue}")]
