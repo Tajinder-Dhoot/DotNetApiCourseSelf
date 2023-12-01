@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DotNetAPI.Models;
 using DotNetAPI.Data;
+using DotNetAPI.Dtos;
 namespace DotNetAPI.Controllers;
 
 [ApiController]
@@ -15,13 +16,6 @@ public class UserController : ControllerBase
         _dapper = new DataContextDapper(config);
     }
 
-    // [HttpGet("GetUsers")]
-    // public string GetUsers()
-    // {
-    //     return "123";
-    // }
-    
-    
     [HttpGet("GetUsers")]
     public IEnumerable<User> GetUsers()
     {
@@ -77,7 +71,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("AddUser")]
-    public IActionResult AddUser(User user)
+    public IActionResult AddUser(UserToAddDto user)
     {
         string sql = @"
             INSERT INTO TutorialAppSchema.Users(
