@@ -90,6 +90,46 @@ namespace DotNetAPI.Controllers
             throw new Exception("Passwords do not match!");
         }
 
+        [HttpPost("Login")]
+        public IActionResult Login(UserForLoginDto userForLogin)
+        {
+            string sqlCheckUserExists = "SELECT Email FROM TutorialAppSchema.Auth WHERE Email = '" +
+                    userForLogin.Email + "'";
+
+            IEnumerable<string> existingUsers = _dapper.LoadData<string>(sqlCheckUserExists);
+
+            if(existingUsers.Any())
+            {
+                // get password hash and salt from DB for user
+                string sqlPasswordHashAndSalt = @"SELECT" +
+                    " [PasswordHash]," +
+                    " [PasswordSalt] FROM TutorialAppSchema.Auth WHERE Email = '" + 
+                    userForLogin.Email + "'";
+
+                Console.WriteLine("sqlPasswordHashAndSalt: " + sqlPasswordHashAndSalt);
+
+                UserForLoginConfirmationDto userForConfirmation = 
+                    _dapper.LoadDataSingle<UserForLoginConfirmationDto>(sqlPasswordHashAndSalt);
+
+                //get hash of password entered
+                byte[] passwordHash = GetPasswordHash(userForLogin.Password, userForConfirmation.PasswordSalt);
+
+                //compare hashed password filled by user and passowrd hash, if equals -> return Ok(), else throe exception
+                // if(passwordHash.Equals(userForLoginConfirmation.PasswordHash)) won't work
+                for (int index = 0; index < passwordHash.Length; index++)
+                {
+                    if(passwordHash[index] != userForConfirmation.PasswordHash[index])
+                    {
+                        return StatusCode(401, "Incorrect Password");
+                    }
+                }
+
+                return Ok();
+            }
+
+            return StatusCode(400, "User Not Found!");
+        }
+
         private byte[] GetPasswordHash(string password, byte[] passwordSalt)
         {
             string passwordSaltPlusString = _config.GetSection("AppSettings:PasswordKey").Value +
