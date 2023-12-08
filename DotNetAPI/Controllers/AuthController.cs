@@ -1,26 +1,37 @@
 
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using DotNetAPI.Data;
 using DotNetAPI.Dtos;
+using DotNetAPI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DotNetAPI.Controllers
 {
+    [Authorize]
+    [ApiController]
+    [Route("[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
         private readonly DataContextDapper _dapper;
+        private readonly AuthHelper _authHelper;
 
         public AuthController(IConfiguration config)
         {
             _config = config;
             _dapper = new DataContextDapper(config);
+            _authHelper = new AuthHelper(config);
         }
 
+        [AllowAnonymous]
         [HttpPost("Register")]
         public IActionResult Register(UserForRegistrationDto userForRegistration)
         {
@@ -38,7 +49,7 @@ namespace DotNetAPI.Controllers
                         rng.GetNonZeroBytes(passwordSalt);
                     }
 
-                    byte[] passwordHash = GetPasswordHash(userForRegistration.Password, passwordSalt);
+                    byte[] passwordHash = _authHelper.GetPasswordHash(userForRegistration.Password, passwordSalt);
 
                     string sqlAddAuth = @"
                         INSERT INTO TutorialAppSchema.Auth  ([Email],
@@ -90,6 +101,7 @@ namespace DotNetAPI.Controllers
             throw new Exception("Passwords do not match!");
         }
 
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(UserForLoginDto userForLogin)
         {
@@ -106,13 +118,11 @@ namespace DotNetAPI.Controllers
                     " [PasswordSalt] FROM TutorialAppSchema.Auth WHERE Email = '" + 
                     userForLogin.Email + "'";
 
-                Console.WriteLine("sqlPasswordHashAndSalt: " + sqlPasswordHashAndSalt);
-
                 UserForLoginConfirmationDto userForConfirmation = 
                     _dapper.LoadDataSingle<UserForLoginConfirmationDto>(sqlPasswordHashAndSalt);
 
                 //get hash of password entered
-                byte[] passwordHash = GetPasswordHash(userForLogin.Password, userForConfirmation.PasswordSalt);
+                byte[] passwordHash = _authHelper.GetPasswordHash(userForLogin.Password, userForConfirmation.PasswordSalt);
 
                 //compare hashed password filled by user and passowrd hash, if equals -> return Ok(), else throe exception
                 // if(passwordHash.Equals(userForLoginConfirmation.PasswordHash)) won't work
@@ -124,24 +134,30 @@ namespace DotNetAPI.Controllers
                     }
                 }
 
-                return Ok();
+                string userIdSql = @"
+                    SELECT UserId FROM  TutorialAppSchema.Users WHERE Email = '" +
+                    userForLogin.Email + "'";
+                
+                int userId = _dapper.LoadDataSingle<int>(userIdSql);
+
+                return Ok(new Dictionary<string, string> {
+                    {"token", _authHelper.CreateToken(userId)}
+                });
             }
 
             return StatusCode(400, "User Not Found!");
         }
 
-        private byte[] GetPasswordHash(string password, byte[] passwordSalt)
+        [HttpGet("RefreshToken")]
+        public string RefreshToken()
         {
-            string passwordSaltPlusString = _config.GetSection("AppSettings:PasswordKey").Value +
-                Convert.ToBase64String(passwordSalt);
+            string userIdSql = @"
+                SELECT UserId FROM TutorialAppSchema.Users WHERE UserId = '" +
+                User.FindFirst("userId")?.Value + "'"; // User.FindFisrt("userId") get userId associated with the claim.
 
-            return KeyDerivation.Pbkdf2(
-                password: password,
-                salt: Encoding.ASCII.GetBytes(passwordSaltPlusString),
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 1000000,
-                numBytesRequested: 256 / 8
-            );
+            int userId = _dapper.LoadDataSingle<int>(userIdSql);
+
+            return _authHelper.CreateToken(userId);
         }
     }
 }
