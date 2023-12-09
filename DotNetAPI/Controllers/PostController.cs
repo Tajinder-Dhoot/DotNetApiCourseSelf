@@ -120,5 +120,16 @@ namespace DotNetAPI.Controllers
 
             throw new Exception("Failed to delete the Post!");
         }
+
+        [HttpPost("Search")]
+        public IEnumerable<Post> SearchPost([FromQuery] string searchParams)
+        {
+            string sql = @"SELECT * FROM TutorialAppSchema.Posts" +
+                            " WHERE PostTitle LIKE ('%" + searchParams + "%')" +
+                            " OR PostContent LIKE ('%" + searchParams + "%')";
+
+            IEnumerable<Post> posts = _dapper.LoadData<Post>(sql);
+            return posts;
+        }
     }
 }
